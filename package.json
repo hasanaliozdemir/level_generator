@@ -1,0 +1,22 @@
+{
+    "name": "cybersnake-level-editor",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "start": "webpack serve --mode development --open",
+        "build": "webpack --mode production"
+    },
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "typescript": "^5.2.2",
+        "@types/react": "^18.2.21",
+        "@types/react-dom": "^18.2.7",
+        "webpack": "^5.88.2",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^4.15.1",
+        "ts-loader": "^9.4.4"
+    }
+}

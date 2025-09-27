@@ -1,0 +1,39 @@
+# Node modules
+node_modules/
+
+# Build output
+/dist
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
+
+# Env files
+.env
+
+# Coverage
+coverage/
+
+# Misc
+*.swp
+*.swo
+
+# TypeScript
+*.tsbuildinfo
+
+# Production
+/build
+
+# Local
+*.local
+
+# Others
+*.log
