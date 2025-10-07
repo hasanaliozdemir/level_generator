@@ -6,7 +6,23 @@ interface JsonPanelProps {
 }
 
 const JsonPanel: React.FC<JsonPanelProps> = ({ levelJson }) => {
-    const jsonStr = JSON.stringify(levelJson, null, 2);
+    // Pozisyonları [row, col] yerine [x, y] yani [col, row] formatına çevir
+    const transformedObstacles = levelJson.obstacles.map(obstacle => {
+        if (obstacle.type === 'portal') {
+            return {
+                ...obstacle,
+                positions: obstacle.positions.map(([row, col]) => [col, row])
+            };
+        } else {
+            return {
+                ...obstacle,
+                positions: obstacle.positions.map(([row, col]) => [col, row])
+            };
+        }
+    });
+
+    // Direkt array olarak export et (obstacles: key olmadan)
+    const jsonStr = JSON.stringify(transformedObstacles, null, 2);
 
     const handleCopy = () => {
         navigator.clipboard.writeText(jsonStr);
