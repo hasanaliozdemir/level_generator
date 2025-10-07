@@ -32,7 +32,7 @@ const Grid: React.FC<GridProps> = ({ rows, cols, obstacles, setObstacles, select
     // Yılanın başlangıç pozisyonları (x: col, y: row formatında)
     const snakeStartX = Math.floor(cols / 2);
     const snakeStartY = Math.floor(rows / 2);
-    
+
     // Yılanın başlangıç hücreleri ve üstündeki 3 hücre (toplamda 6 hücre)
     const isSnakeReservedCell = (row: number, col: number): boolean => {
         if (col !== snakeStartX) return false;
@@ -163,7 +163,7 @@ const Grid: React.FC<GridProps> = ({ rows, cols, obstacles, setObstacles, select
                 const isReserved = isSnakeReservedCell(row, col);
                 // Yılanın başlangıç 3 hücresi
                 const isSnakeStart = col === snakeStartX && row >= snakeStartY && row <= snakeStartY + 2;
-                
+
                 return (
                     <div
                         key={idx}
@@ -174,22 +174,22 @@ const Grid: React.FC<GridProps> = ({ rows, cols, obstacles, setObstacles, select
                             minHeight: 24,
                             background:
                                 isSnakeStart ? '#69db7c' :
-                                isReserved ? '#f1f3f5' :
-                                isTempPortal ? '#a5d8ff' :
-                                    isPainted ? '#ffe066' :
-                                        cellType === 'wall' ? '#adb5bd' :
-                                            cellType === 'laser' ? '#ffe066' :
-                                                cellType === 'portal' ? '#74c0fc' : '#fff',
+                                    isReserved ? '#f1f3f5' :
+                                        isTempPortal ? '#a5d8ff' :
+                                            isPainted ? '#ffe066' :
+                                                cellType === 'wall' ? '#adb5bd' :
+                                                    cellType === 'laser' ? '#ffe066' :
+                                                        cellType === 'portal' ? '#74c0fc' : '#fff',
                             cursor: isReserved ? 'not-allowed' : selectedItem ? 'pointer' : cellType ? 'pointer' : 'default',
                             transition: 'background 0.2s',
                             opacity: isReserved && !isSnakeStart ? 0.5 : 1,
                         }}
                         title={
                             isSnakeStart ? 'Snake start position' :
-                            isReserved ? 'Reserved area (no obstacles allowed)' :
-                            cellType ? 'Click or drag to delete' : 
-                            selectedItem === 'portal' ? 'Select two positions for portal' : 
-                            selectedItem ? 'Click or drag to add' : ''
+                                isReserved ? 'Reserved area (no obstacles allowed)' :
+                                    cellType ? 'Click or drag to delete' :
+                                        selectedItem === 'portal' ? 'Select two positions for portal' :
+                                            selectedItem ? 'Click or drag to add' : ''
                         }
                     />
                 );
