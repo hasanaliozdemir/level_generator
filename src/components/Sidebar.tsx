@@ -13,7 +13,7 @@ const items = [
 
 const Sidebar: React.FC<SidebarProps> = ({ selectedItem, setSelectedItem }) => {
     return (
-        <div style={{ width: 180, background: '#f7f7f7', padding: 16, borderRight: '1px solid #ddd' }}>
+        <div style={{ width: 180, background: '#f7f7f7', padding: 16, borderRight: '1px solid #ddd', display: 'flex', flexDirection: 'column' }}>
             <h3>Elements</h3>
             {items.map(item => (
                 <div
@@ -32,6 +32,22 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedItem, setSelectedItem }) => {
                     {item.label}
                 </div>
             ))}
+            
+            <div style={{ 
+                marginTop: 'auto', 
+                padding: '12px', 
+                background: '#e7f5ff', 
+                borderRadius: 6, 
+                fontSize: 12, 
+                lineHeight: 1.5,
+                border: '1px solid #74c0fc'
+            }}>
+                <strong style={{ display: 'block', marginBottom: 6, color: '#1971c2' }}>🐍 Snake Area</strong>
+                <p style={{ margin: 0, color: '#495057' }}>
+                    The green cells in the center are the snake's starting position. 
+                    The gray cells above are reserved space. No obstacles can be placed in these areas.
+                </p>
+            </div>
         </div>
     );
 };

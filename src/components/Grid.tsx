@@ -29,7 +29,21 @@ const Grid: React.FC<GridProps> = ({ rows, cols, obstacles, setObstacles, select
     // Portal ekleme için geçici pozisyonlar
     const [tempPortal, setTempPortal] = useState<[number, number][]>([]);
 
+    // Yılanın başlangıç pozisyonları (x: col, y: row formatında)
+    const snakeStartX = Math.floor(cols / 2);
+    const snakeStartY = Math.floor(rows / 2);
+    
+    // Yılanın başlangıç hücreleri ve üstündeki 3 hücre (toplamda 6 hücre)
+    const isSnakeReservedCell = (row: number, col: number): boolean => {
+        if (col !== snakeStartX) return false;
+        // Yılanın 3 hücresi: snakeStartY, snakeStartY+1, snakeStartY+2
+        // Üstündeki 3 hücre: snakeStartY-1, snakeStartY-2, snakeStartY-3
+        return row >= snakeStartY - 3 && row <= snakeStartY + 2;
+    };
+
     const handlePointerDown = (row: number, col: number, cellType: 'wall' | 'laser' | 'portal' | null) => {
+        // Yılanın rezerve alanına engel eklenemez
+        if (isSnakeReservedCell(row, col)) return;
         // Portal ekleme modunda (öğe seçili ve portal), sadece ekleme işlemi yapılır
         if (selectedItem === 'portal') {
             if (tempPortal.length === 0) {
@@ -63,6 +77,8 @@ const Grid: React.FC<GridProps> = ({ rows, cols, obstacles, setObstacles, select
     const handlePointerEnter = (row: number, col: number, cellType: 'wall' | 'laser' | 'portal' | null) => {
         if (selectedItem === 'portal') return; // Portal için sürükle-çek yok
         if (!isPainting) return;
+        // Yılanın rezerve alanına engel eklenemez
+        if (isSnakeReservedCell(row, col)) return;
         if (paintMode === 'add' && selectedItem && !cellType) {
             setPaintPositions((prev: [number, number][]) => {
                 if (prev.length === 0) return [[row, col]];
@@ -143,6 +159,11 @@ const Grid: React.FC<GridProps> = ({ rows, cols, obstacles, setObstacles, select
                 const isTempPortal = tempPortal.some(([r, c]) => r === row && c === col);
                 // Sürükleme sırasında işaretlenen hücreleri göster
                 const isPainted = paintPositions.some(([r, c]) => r === row && c === col);
+                // Yılanın rezerve alanı
+                const isReserved = isSnakeReservedCell(row, col);
+                // Yılanın başlangıç 3 hücresi
+                const isSnakeStart = col === snakeStartX && row >= snakeStartY && row <= snakeStartY + 2;
+                
                 return (
                     <div
                         key={idx}
@@ -152,15 +173,24 @@ const Grid: React.FC<GridProps> = ({ rows, cols, obstacles, setObstacles, select
                             border: '1px solid #eee',
                             minHeight: 24,
                             background:
+                                isSnakeStart ? '#69db7c' :
+                                isReserved ? '#f1f3f5' :
                                 isTempPortal ? '#a5d8ff' :
                                     isPainted ? '#ffe066' :
                                         cellType === 'wall' ? '#adb5bd' :
                                             cellType === 'laser' ? '#ffe066' :
                                                 cellType === 'portal' ? '#74c0fc' : '#fff',
-                            cursor: selectedItem ? 'pointer' : cellType ? 'pointer' : 'default',
+                            cursor: isReserved ? 'not-allowed' : selectedItem ? 'pointer' : cellType ? 'pointer' : 'default',
                             transition: 'background 0.2s',
+                            opacity: isReserved && !isSnakeStart ? 0.5 : 1,
                         }}
-                        title={cellType ? 'Silmek için tıkla veya sürükle' : selectedItem === 'portal' ? 'Portal için iki konum seç' : selectedItem ? 'Eklemek için tıkla veya sürükle' : ''}
+                        title={
+                            isSnakeStart ? 'Snake start position' :
+                            isReserved ? 'Reserved area (no obstacles allowed)' :
+                            cellType ? 'Click or drag to delete' : 
+                            selectedItem === 'portal' ? 'Select two positions for portal' : 
+                            selectedItem ? 'Click or drag to add' : ''
+                        }
                     />
                 );
             })}
