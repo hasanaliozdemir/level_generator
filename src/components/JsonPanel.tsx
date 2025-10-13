@@ -41,11 +41,11 @@ const JsonPanel: React.FC<JsonPanelProps> = ({ levelJson }) => {
     return (
         <div style={{ width: 320, background: '#fafafa', padding: 16, borderLeft: '1px solid #ddd', display: 'flex', flexDirection: 'column' }}>
             <h3>Level JSON</h3>
-            <pre style={{ flex: 1, background: '#fff', border: '1px solid #eee', borderRadius: 4, padding: 8, fontSize: 13 }}>{jsonStr}</pre>
-            <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
+            <div style={{ marginBottom: 12, display: 'flex', gap: 8 }}>
                 <button onClick={handleCopy}>Copy</button>
                 <button onClick={handleDownload}>Download</button>
             </div>
+            <pre style={{ flex: 1, background: '#fff', border: '1px solid #eee', borderRadius: 4, padding: 8, fontSize: 13, overflow: 'auto' }}>{jsonStr}</pre>
         </div>
     );
 };
